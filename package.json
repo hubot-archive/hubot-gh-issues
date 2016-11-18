@@ -1,0 +1,41 @@
+{
+  "name": "hubot-gh-issues",
+  "description": "Hubot interface for GitHub issues",
+  "version": "0.0.1",
+  "author": "@benwtr",
+  "license": "MIT",
+  "keywords": [
+    "hubot",
+    "github",
+    "gh",
+    "issues",
+    "github-issues"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/hubot-scripts/hubot-gh-issues.git"
+  },
+  "bugs": {
+    "url": "https://github.com/hubot-scripts/hubot-gh-issues/issues"
+  },
+  "dependencies": {
+    "coffee-script": "~1.6",
+    "hubot-gh-token": "0.0.1",
+    "octonode": "^0.7.6"
+  },
+  "devDependencies": {
+    "chai": "*",
+    "grunt": "^1.0.1",
+    "grunt-contrib-watch": "~0.5.3",
+    "grunt-mocha-test": "~0.7.0",
+    "grunt-release": "~0.6.0",
+    "matchdep": "~0.1.2",
+    "mocha": "*",
+    "sinon": "*",
+    "sinon-chai": "*"
+  },
+  "main": "index.coffee",
+  "scripts": {
+    "test": "grunt test"
+  }
+}

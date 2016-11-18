@@ -1,7 +1,7 @@
 {
   "name": "hubot-gh-issues",
   "description": "Hubot interface for GitHub issues",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": "@benwtr",
   "license": "MIT",
   "keywords": [

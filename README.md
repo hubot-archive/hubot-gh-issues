@@ -9,11 +9,16 @@ See [`src/gh-issues.coffee`](src/gh-issues.coffee) for full documentation.
 In hubot project repo, run:
 
 `npm install hubot-gh-issues --save`
+`npm install hubot-gh-token --save`
 
-Then add **hubot-gh-issues** to your `external-scripts.json`:
+Then add **hubot-gh-issues** and **hubot-gh-token** to your
+`external-scripts.json`:
 
 ```json
-["hubot-gh-issues"]
+[
+  "hubot-gh-issues",
+  "hubot-gh-token"
+]
 ```
 
 ## Dependencies

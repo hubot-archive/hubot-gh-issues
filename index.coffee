@@ -31,3 +31,40 @@ module.exports = (robot, scripts) ->
             msg.reply "Created issue ##{data.number} in #{repo} - #{data.html_url}"
           else
             msg.reply "Error from GitHub API: #{err.body.message}"
+            return err
+
+    closeIssue: (msg, id, repo) ->
+      token = githubTokenForUser msg
+      if token?
+        client = github.client token
+        issue = client.issue repo, id
+        issue.update { state: 'closed' }, (err, data, headers) ->
+          unless err?
+            msg.reply "Closed issue ##{id} in #{repo} - #{data.html_url}"
+          else
+            msg.reply "Error from GitHub API: #{err.body.message}"
+            return err
+
+    showIssue: (msg, id, repo) ->
+      token = githubTokenForUser msg
+      if token?
+        client = github.client token
+        issue = client.issue repo, id
+        issue.info (err, data, headers) ->
+          unless err?
+            msg.reply "Issue ##{id} in #{repo} - #{data.title} - #{data.html_url}"
+          else
+            msg.reply "Error from GitHub API: #{err.body.message}"
+            return err
+
+    commentOnIssue: (msg, comment, id, repo) ->
+      token = githubTokenForUser msg
+      if token?
+        client = github.client token
+        issue = client.issue repo, id
+        issue.createComment { body: comment }, (err, data, headers) ->
+          unless err?
+            msg.reply "Added comment to issue ##{id} in #{repo} - #{data.html_url}"
+          else
+            msg.reply "Error from GitHub API: #{err.body.message}"
+            return err

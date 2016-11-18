@@ -11,6 +11,9 @@
 #
 # Commands:
 #   hubot github open issue "<title>" (about "<body>") (in "(<owner>/)<repo>") (with labels "<label1>,<label2>,..") - Opens a new issue
+#   hubot github show issue #<issue_number> (in (<owner>/)<repo>)
+#   hubot github close issue #<issue_number> (in (<owner>/)<repo>)
+#   hubot github comment issue #<issue_number> (in (<owner>/)<repo>) "<comment>"
 #
 # Author:
 #   @benwtr
@@ -30,5 +33,35 @@ module.exports = (robot) ->
     else
       "#{DEFAULT_OWNER}/#{DEFAULT_REPO}"
     labels = if msg.match[5]? then msg.match[5].split(',') else []
-
     robot.ghissues.openIssue msg, title, body, repo, labels
+
+  robot.respond /(?:github|gh) show issue #?(\d+)(?: in ([\w\d-_]+)(?:\/([\w\d-_]+))?)?$/i, id: 'gh-issues.show', (msg) ->
+    id = msg.match[1]
+    repo = if msg.match[2]? and msg.match[3]?
+      "#{msg.match[2]}/#{msg.match[3]}"
+    else if msg.match[2]?
+      "#{DEFAULT_OWNER}/#{msg.match[2]}"
+    else
+      "#{DEFAULT_OWNER}/#{DEFAULT_REPO}"
+    robot.ghissues.showIssue msg, id, repo
+
+  robot.respond /(?:github|gh) close issue #?(\d+)(?: in ([\w\d-_]+)(?:\/([\w\d-_]+))?)?$/i, id: 'gh-issues.close', (msg) ->
+    id = msg.match[1]
+    repo = if msg.match[2]? and msg.match[3]?
+      "#{msg.match[2]}/#{msg.match[3]}"
+    else if msg.match[2]?
+      "#{DEFAULT_OWNER}/#{msg.match[2]}"
+    else
+      "#{DEFAULT_OWNER}/#{DEFAULT_REPO}"
+    robot.ghissues.closeIssue msg, id, repo
+
+  robot.respond /(?:github|gh) comment issue #?(\d+)(?: in ([\w\d-_]+)(?:\/([\w\d-_]+))?)? "(.*)"$/i, id: 'gh-issues.comment', (msg) ->
+    id = msg.match[1]
+    repo = if msg.match[2]? and msg.match[3]?
+      "#{msg.match[2]}/#{msg.match[3]}"
+    else if msg.match[2]?
+      "#{DEFAULT_OWNER}/#{msg.match[2]}"
+    else
+      "#{DEFAULT_OWNER}/#{DEFAULT_REPO}"
+    comment = msg.match[4]
+    robot.ghissues.commentOnIssue msg, comment, id, repo

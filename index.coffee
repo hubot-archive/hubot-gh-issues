@@ -68,3 +68,30 @@ module.exports = (robot, scripts) ->
           else
             msg.reply "Error from GitHub API: #{err.body.message}"
             return err
+
+    searchIssues: (msg, query, repo) ->
+      token = githubTokenForUser msg
+      if token?
+        client = github.client token
+        ghQueryString = query
+        if repo.endsWith "/undefined"
+          ghQueryString += "+user:#{repo.replace("/undefined", "")}"
+        else
+          ghQueryString += "+repo:#{repo}"
+        queryObj =
+          q: ghQueryString
+          sort: "created"
+          order: "asc"
+        client.search().issues queryObj, (err, data, headers) ->
+          unless err?
+            robot.logger.info data
+            reply = "Found #{data.total_count} issue"
+            reply += if data.total_count != 1 then "s\n" else "\n"
+            if data.items
+              for issue in data.items
+                reply += "##{issue.number} #{issue.title}\n"
+                reply += "#{issue.html_url}\n"
+            msg.reply reply
+          else
+            msg.reply "Error from GitHub API: #{err.body.message}"
+            return err

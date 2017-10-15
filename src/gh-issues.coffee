@@ -14,6 +14,7 @@
 #   hubot github show issue #<issue_number> (in (<owner>/)<repo>)
 #   hubot github close issue #<issue_number> (in (<owner>/)<repo>)
 #   hubot github comment issue #<issue_number> (in (<owner>/)<repo>) "<comment>"
+#   hubot github search issues "<query>" (in "(<owner>/)<repo>") (with labels "<label1>,<label2>,..") - Search issues
 #
 # Author:
 #   @benwtr
@@ -65,3 +66,13 @@ module.exports = (robot) ->
       "#{DEFAULT_OWNER}/#{DEFAULT_REPO}"
     comment = msg.match[4]
     robot.ghissues.commentOnIssue msg, comment, id, repo
+
+  robot.respond /(?:github|gh) search issues "([^"]+)"(?: in "([\w\d-_]+)(?:\/([\w\d-_]+))?")?$/i, id: 'gh-issues.search', (msg) ->
+    query = msg.match[1]
+    repo = if msg.match[2]? and msg.match[3]?
+      "#{msg.match[2]}/#{msg.match[3]}"
+    else if msg.match[2]?
+      "#{DEFAULT_OWNER}/#{msg.match[2]}"
+    else
+      "#{DEFAULT_OWNER}/#{DEFAULT_REPO}"
+    robot.ghissues.searchIssues msg, query, repo

@@ -3,6 +3,9 @@
   "description": "Hubot interface for GitHub issues",
   "version": "0.0.4",
   "author": "@benwtr",
+  "contributors": [
+    "Tommi Laukkanen (https://github.com/tlaukkanen)"
+  ],
   "license": "MIT",
   "keywords": [
     "hubot",
@@ -21,7 +24,7 @@
   "dependencies": {
     "coffee-script": "~1.6",
     "hubot-gh-token": "0.0.1",
-    "octonode": "^0.7.6"
+    "octonode": "^0.9.0"
   },
   "devDependencies": {
     "chai": "*",
